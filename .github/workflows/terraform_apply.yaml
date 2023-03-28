@@ -1,0 +1,28 @@
+name: Terraform Apply
+on:
+  push:
+    branches:
+      - "**_deploy"
+  workflow_dispatch:
+
+env:
+  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_SA_KEY }}
+  TF_WORKING_DIR: terraform
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+      - name: terraform init
+        run: terraform init
+      - name: terraform plan
+        run: terraform plan -no-color -lock-timeout=5m
+      - name: terraform apply
+        run: terraform apply -no-color -lock-timeout=5m -auto-approve
