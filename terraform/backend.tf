@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "{{DOMAIN}}-tf-controller"
-    prefix = "{{PROJECT_NAME}}/terraform/state"
+    bucket = "thompsonja-tf-controller"
+    prefix = "discord-bots/terraform/state"
   }
 }
