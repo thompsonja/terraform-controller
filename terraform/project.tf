@@ -16,11 +16,14 @@ resource "google_project_service" "service" {
   for_each = toset([
     "artifactregistry.googleapis.com",
     "cloudbilling.googleapis.com",
+    "cloudbuild.googleapis.com",
     "cloudresourcemanager.googleapis.com",
+    "containerregistry.googleapis.com",
     "compute.googleapis.com",
     "firebase.googleapis.com",
     "firestore.googleapis.com",
     "iam.googleapis.com",
+    "run.googleapis.com",
     "secretmanager.googleapis.com",
     "serviceusage.googleapis.com"
   ])
@@ -50,4 +53,15 @@ resource "google_artifact_registry_repository" "artifact-repo" {
   depends_on = [
     time_sleep.artifact_registry_api_enabling
   ]
+}
+
+// Add roles for yourself. Viewer is fine, add others as appropriate.
+// Update the email address
+resource "google_project_iam_member" "joshua_thompsonja_roles" {
+  for_each = toset([
+    "roles/viewer"
+  ])
+  project = google_project.project.project_id
+  role    = each.key
+  member  = "user:joshua@thompsonja.com"
 }
