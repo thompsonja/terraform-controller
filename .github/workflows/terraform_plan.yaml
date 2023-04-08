@@ -5,7 +5,7 @@ on:
       - "terraform/**"
 
 env:
-  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_SA_KEY }}
+  GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
   TF_WORKING_DIR: terraform
 
 jobs:
