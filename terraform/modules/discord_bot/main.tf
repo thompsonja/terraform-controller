@@ -161,7 +161,6 @@ resource "google_cloudbuild_trigger" "service-trigger" {
 
   substitutions = {
     _APP         = var.bot_name
-    _SKIP_DEPLOY = "false"
     _ZONE        = var.gcp.zone
   }
 

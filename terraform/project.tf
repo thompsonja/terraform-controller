@@ -59,6 +59,7 @@ resource "google_artifact_registry_repository" "artifact-repo" {
 // Update the email address
 resource "google_project_iam_member" "joshua_thompsonja_roles" {
   for_each = toset([
+    "roles/artifactregistry.writer",
     "roles/viewer"
   ])
   project = google_project.project.project_id
