@@ -101,8 +101,8 @@ resource "google_cloud_run_service" "service" {
   template {
     spec {
       containers {
-        image   = "${var.gcp.zone}-docker.pkg.dev/${var.gcp.project_id}/${var.gcp.artifact_repository_id}/${var.bot_name}:latest"
-        command = ["/app/server"]
+        image   = "us-docker.pkg.dev/cloudrun/container/hello:latest"
+        command = ["/server"]
         args    = ["--project_id=${var.gcp.project_id}"]
       }
       service_account_name = google_service_account.bot-service-account.email
