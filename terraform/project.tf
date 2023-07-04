@@ -60,6 +60,7 @@ resource "google_artifact_registry_repository" "artifact-repo" {
 resource "google_project_iam_member" "joshua_thompsonja_roles" {
   for_each = toset([
     "roles/artifactregistry.writer",
+    "roles/cloudbuild.builds.editor",
     "roles/viewer"
   ])
   project = google_project.project.project_id
