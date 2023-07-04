@@ -60,7 +60,7 @@ resource "google_secret_manager_secret" "bot-secrets" {
 
 // Make sure you and the bot can access these secrets.
 resource "google_secret_manager_secret_iam_binding" "bot-secrets-access" {
-  for_each  = toset(concat(google_secret_manager_secret.bot-secrets, google_secret_manager_secret.bot-key))
+  for_each  = merge({ "bot-key" = google_secret_manager_secret.bot-key }, google_secret_manager_secret.bot-secrets)
   project   = var.gcp.project_id
   secret_id = each.value.secret_id
   role      = "roles/secretmanager.secretAccessor"
@@ -71,7 +71,7 @@ resource "google_secret_manager_secret_iam_binding" "bot-secrets-access" {
 }
 
 resource "google_secret_manager_secret_iam_binding" "bot-secrets-viewer" {
-  for_each  = toset(concat(google_secret_manager_secret.bot-secrets, google_secret_manager_secret.bot-key))
+  for_each  = merge({ "bot-key" = google_secret_manager_secret.bot-key }, google_secret_manager_secret.bot-secrets)
   project   = var.gcp.project_id
   secret_id = each.value.secret_id
   role      = "roles/secretmanager.viewer"
@@ -83,7 +83,7 @@ resource "google_secret_manager_secret_iam_binding" "bot-secrets-viewer" {
 
 // This lets you be able to update the secret when you obtain it from Discord.
 resource "google_secret_manager_secret_iam_binding" "bot-secrets-writer" {
-  for_each  = toset(concat(google_secret_manager_secret.bot-secrets, google_secret_manager_secret.bot-key))
+  for_each  = merge({ "bot-key" = google_secret_manager_secret.bot-key }, google_secret_manager_secret.bot-secrets)
   project   = var.gcp.project_id
   secret_id = each.value.secret_id
   role      = "roles/secretmanager.secretVersionManager"

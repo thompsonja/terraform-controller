@@ -175,3 +175,26 @@ resource "google_monitoring_notification_channel" "email-owner" {
     email_address = "joshua@thompsonja.com"
   }
 }
+
+module "dalle-bot" {
+  source   = "./modules/discord_bot"
+  bot_name = "dalle"
+  github_trigger = {
+    branch          = "main"
+    included_files  = ["dalle/**"]
+    repo_owner      = "thompsonja"
+    repo_name       = "discordbots"
+    cloudbuild_file = "cloudbuild.yaml"
+  }
+  gcp = {
+    additional_roles       = []
+    additional_secrets     = ["openai-api-secret"]
+    artifact_repository_id = google_artifact_registry_repository.artifact-repo.repository_id
+    notification_channels  = [google_monitoring_notification_channel.email-owner.name]
+    owner                  = "joshua@thompsonja.com"
+    project_id             = google_project.project.project_id
+    project_number         = google_project.project.number
+    zone                   = var.zone
+  }
+}
+
