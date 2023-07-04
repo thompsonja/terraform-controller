@@ -27,8 +27,8 @@ variable "gcp" {
     additional_roles       = list(string)
     additional_secrets     = list(string)
     artifact_repository_id = string
-    owner                  = string
     notification_channels  = list(string)
+    owner                  = string
     project_id             = string
     project_number         = string
     zone                   = string
